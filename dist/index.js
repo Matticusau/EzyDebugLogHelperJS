@@ -1,3 +1,4 @@
+"use strict";
 //
 // Author:  Matt Lavery
 // Date:    28/09/2018
@@ -6,28 +7,19 @@
 // When         Who         What
 // ------------------------------------------------------------------------------------------
 //
-
-export class DebugLogHelper {
-
-    // properties
-    private callerName: string;
-    private environmentName: string;
-    private showInProdEnv: boolean;
-    private showInTestEnv: boolean;
-
-    constructor (
-    ) {
+Object.defineProperty(exports, "__esModule", { value: true });
+class DebugLogHelper {
+    constructor() {
         this.callerName = '';
         this.environmentName = '';
         this.showInProdEnv = false;
         this.showInTestEnv = false;
     }
-
     /** Log a debug message if not production */
-    logmsg(message: string, msgPrefix: string = '') {
+    logmsg(message, msgPrefix = '') {
         try {
             // determine if we need to show the msg based on the environment
-            let sendToConsole: boolean;
+            let sendToConsole;
             sendToConsole = false;
             if ((this.getEnvironment() === 'production' || this.getEnvironment() === 'prod') && this.showInProdEnv) {
                 sendToConsole = true;
@@ -38,37 +30,38 @@ export class DebugLogHelper {
             if (this.getEnvironment() === 'dev') {
                 sendToConsole = true;
             }
-
             // log the message to the console if required
             if (sendToConsole) {
                 console.log(`${this.getMsgPrefix(msgPrefix)}>>> ` + message);
             }
-        } catch(err) {
+        }
+        catch (err) {
             console.log(`FATALERR: Error in DebugLogHelper.logmsg: ${JSON.stringify(err)}`);
         }
-        
     }
-
     // helper function to format the message prefix
-    private getMsgPrefix(msgPrefix: string): string {
-      let tmpPrefix: string;
-      if (this.callerName.length > 0 && msgPrefix.length > 0) {
-        tmpPrefix = `${this.callerName}:${msgPrefix}`;
-      } else if (this.callerName.length > 0) {
-        tmpPrefix = this.callerName;
-      } else {
-        tmpPrefix = msgPrefix;
-      }
-      return tmpPrefix;
+    getMsgPrefix(msgPrefix) {
+        let tmpPrefix;
+        if (this.callerName.length > 0 && msgPrefix.length > 0) {
+            tmpPrefix = `${this.callerName}:${msgPrefix}`;
+        }
+        else if (this.callerName.length > 0) {
+            tmpPrefix = this.callerName;
+        }
+        else {
+            tmpPrefix = msgPrefix;
+        }
+        return tmpPrefix;
     }
-
     // helper function to get the environment
-    private getEnvironment(): string {
+    getEnvironment() {
         if (this.environmentName.length > 0) {
             return this.environmentName.toLowerCase();
-        } else {
+        }
+        else {
             // assume dev environment
             return 'dev';
         }
     }
 }
+exports.DebugLogHelper = DebugLogHelper;

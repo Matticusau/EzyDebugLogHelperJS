@@ -10,7 +10,7 @@ All notable changes will be documented in this file. Check [Keep a Changelog](ht
 
 ### New
 
-- TBA
+- Initial release
 
 ### Changes
 
